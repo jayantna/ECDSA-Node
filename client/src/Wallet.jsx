@@ -1,10 +1,12 @@
 import server from "./server";
+import {secp} from "ethereum-cryptography/secp256k1";
 
-function Wallet({ address, setAddress, balance, setBalance }) {
+
+function Wallet({ sign, setSign, balance, setBalance }) {
   async function onChange(evt) {
-    const address = evt.target.value;
-    setAddress(address);
-    if (address) {
+    const sign = evt.target.value;
+    setSign(sign);
+    if (sign) {
       const {
         data: { balance },
       } = await server.get(`balance/${address}`);
@@ -14,13 +16,18 @@ function Wallet({ address, setAddress, balance, setBalance }) {
     }
   }
 
+
+  async function recoverKey(message, signature, recoveryBit) {
+    return await secp.recoverPublicKey(hashMessage(message), signature, recoveryBit)
+  }
+
   return (
     <div className="container wallet">
       <h1>Your Wallet</h1>
 
       <label>
-        Wallet Address
-        <input placeholder="Type an address, for example: 0x1" value={address} onChange={onChange}></input>
+        Signature
+        <input placeholder="Enter Signature" value={sign} onChange={onChange}></input>
       </label>
 
       <div className="balance">Balance: {balance}</div>
