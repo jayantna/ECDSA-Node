@@ -6,7 +6,7 @@ import { useState } from "react";
 
 function App() {
   const [balance, setBalance] = useState(0);
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState("0x")
   const [sign, setSign] = useState("");
 
   return (
@@ -14,16 +14,13 @@ function App() {
       <Wallet
         balance={balance}
         setBalance={setBalance}
-        signature={sign}
-        setAddress={setSign}
+        sign={sign}
+        setSign={setSign}
+        address={address}
+        setAddress={setAddress}
       />
       <Transfer setBalance={setBalance} address={address} />
-      <QueryWallet
-      balance={balance}
-      setBalance={setBalance}
-      address={address}
-      setAddress={setAddress}
-      />
+      <QueryWallet/>
     </div>
   );
 }
